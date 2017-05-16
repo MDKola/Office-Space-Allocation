@@ -14,7 +14,7 @@ class TestDojo(unittest.TestCase):
 	def test_create_room_works(self):
 		self.assertEqual(len(self.dojo.all_rooms), 0)
 		self.dojo.create_room('office1', 'office')
-		self.assertEqual(len(self.dojo.all_rooms), 1, 'A new Livingspace, office1 created successfully')
+		self.assertEqual(len(self.dojo.all_rooms), 1, 'a new office has been created')
 
 		"""
 		checks if a room name exists in the list of all rooms and
@@ -55,3 +55,9 @@ class TestDojo(unittest.TestCase):
 		self.assertEqual(len(self.dojo.office), 0)
 		self.dojo.create_room('my_office', 'office')
 		self.assertEqual(len(self.dojo.office), 1)
+
+	def test_add_person_added(self):
+		self.assertEqual(len(self.dojo.all_people), 0)
+		self.dojo.add_person('Kola', 'Fellow')
+		self.dojo.add_person('Dennis', 'Staff')
+		self.assertEqual(len(self.dojo.all_people),2)
