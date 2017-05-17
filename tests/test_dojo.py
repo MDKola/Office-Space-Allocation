@@ -60,4 +60,22 @@ class TestDojo(unittest.TestCase):
 		self.assertEqual(len(self.dojo.all_people), 0)
 		self.dojo.add_person('Kola', 'Fellow')
 		self.dojo.add_person('Dennis', 'Staff')
-		self.assertEqual(len(self.dojo.all_people),2)
+		self.assertEqual(len(self.dojo.all_people),2, "A new person has been added")
+
+	def test_fellow_is_added(self):
+		self.assertEqual(len(self.dojo.fellows), 0)
+		self.dojo.add_person('kola' 'Fellow', 'N')
+		self. assertEqual(len(self.dojo.fellow), 1)
+
+	def test_accomodation_is_added(self):
+		self.dojo.create_room('my_crib', 'livingspace')
+		self.assertEqual(len(self.dojo.fellows), 0)
+		self.dojo.add_person('kola', 'fellow', 'Y')
+		self.assertEqual(len(self.dojo.all_rooms), 1, 'Fellow kola has been added to my_crib successfully')
+
+
+	def test_staff_added(self):
+		self.dojo.create_room('office1', 'office')
+		self.assertEqual(len(self.dojo.staff),0)
+		self.dojo.add_person('kola', 'Staff')
+		self.assertEqual(len(self.dojo.all_rooms), 1, 'Staff kola has been added to office1 successfully')
