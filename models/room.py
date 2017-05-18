@@ -16,7 +16,7 @@ class Room(object):
 
 
 class Office(Room):
-	def __init__(self, room_name):
+	def __init__(self, room_name, max_occupants=6):
 		super(Office, self).__init__(room_name,max_occupants=6)
 
 	def __repr__(self):
