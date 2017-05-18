@@ -20,12 +20,9 @@ class TestDojo(unittest.TestCase):
 		checks if a room name exists in the list of all rooms and
 		returns an error if the room name exists
 		"""
-	def test_duplicate_room(self):
-		self.dojo.create_room("office1", "Office")
-		room_name = [j.name for j in self.dojo.all_rooms]
-		self.assertIn("office1", room_name)
-		msg = self.dojo.create_room("office1", "office")
-		self.assertEqual(msg, "Room already exists")
+	# def test_duplicate_room(self):
+	# 	self.dojo.create_room("office", "office1")
+	# 	self.assertEqual(self.dojo.create_room('office', 'office1'), "Room already exists. Please use a different room name")
 
 		"""
 		checks if multiple rooms are created
@@ -57,15 +54,16 @@ class TestDojo(unittest.TestCase):
 		self.assertEqual(len(self.dojo.office), 1)
 
 	def test_add_person_added(self):
-		self.assertEqual(len(self.dojo.all_people), 0)
-		self.dojo.add_person('Kola', 'Fellow')
-		self.dojo.add_person('Dennis', 'Staff')
-		self.assertEqual(len(self.dojo.all_people),2, "A new person has been added")
+		self.assertEqual(len(self.dojo.fellows), 0)
+		self.dojo.add_person('Kola D', 'fellow')
+		self.assertEqual(len(self.dojo.fellows),1)
+
 
 	def test_fellow_is_added(self):
-		self.assertEqual(len(self.dojo.fellows), 0)
-		self.dojo.add_person('kola' 'Fellow', 'N')
-		self. assertEqual(len(self.dojo.fellow), 1)
+		self.dojo.create_room('office1', 'office')
+		self.assertEqual(len(self.dojo.fellows),0)
+		self.dojo.add_person('kola', 'fellow')
+		self.assertEqual(len(self.dojo.all_rooms), 1, 'Fellow kola has been added to office1 successfully')
 
 	def test_accomodation_is_added(self):
 		self.dojo.create_room('my_crib', 'livingspace')
@@ -79,3 +77,10 @@ class TestDojo(unittest.TestCase):
 		self.assertEqual(len(self.dojo.staff),0)
 		self.dojo.add_person('kola', 'Staff')
 		self.assertEqual(len(self.dojo.all_rooms), 1, 'Staff kola has been added to office1 successfully')
+
+	def test_print_room(self):
+		self.dojo.create_room('office', 'office1')
+		self.dojo.create_room('livingspace', 'living1')
+		self.dojo.add_person('kola', 'fellow')
+		self.dojo.add_person('deno', 'staff')
+		self.assertEqual(self.dojo.print_rooms('office1'), 'rooms printed')
