@@ -14,9 +14,10 @@ class Dojo(object):
         self.staff = []
         self.office = []
         self.livingspace = []
-        
+
 
     def create_room(self, room_name, type_of_room):
+        #checks roomtype, creates the room and appends to appropriate room list
         rooms = [room.room_name for room in self.all_rooms]
         if room_name in rooms:
              print ("Room already exists. Please use a different room name")
@@ -27,7 +28,8 @@ class Dojo(object):
                     new_room = Living_space(room_name)
                     self.livingspace.append(new_room)
                     self.all_rooms.append(new_room)
-                    print ("a new livingspace, %s has been created" %new_room.room_name)
+                    print ("a new livingspace, {} has been created".format(new_room.room_name))
+
 
 
             elif type_of_room == 'office':
@@ -35,7 +37,7 @@ class Dojo(object):
                     new_room = Office(room_name)
                     self.office.append(new_room)
                     self.all_rooms.append(new_room)
-                    print ("a new office, %s has been created" %new_room.room_name)
+                    print ("a new office, {} has been created" .format(new_room.room_name))
 
 
             else:
@@ -44,23 +46,28 @@ class Dojo(object):
 
 
     def room_occupation(self):
+        #checks room vacancy
         my_office = self.office
         my_livingspace = self.livingspace
         for office in my_office:
+            # add office to vacant list if not in vacant list
             if len(office.members) < office.max_occupants:
                 if office not in self.vacant_offices:
                     self.vacant_offices.append(office)
                     self.vacant_rooms.append(office)
+                    #remove full office from vacant rooms list
                 elif len(office.members) >= office.max_occupants:
                     if office in self.vacant_offices:
                         self.vacant_offices.remove(office)
                         self.vacant_rooms.remove(office)
-        
+
         for livingspace in my_livingspace:
+            #add office to vacant list of livingspaces
             if len(livingspace.members) < livingspace.max_occupants:
                 if livingspace not in self.vacant_livingspace:
                     self.vacant_livingspace.append(livingspace)
                     self.vacant_rooms.append(livingspace)
+                    #remove office full office from vacant list of rooms
                 elif len(livingspace.members) >= livingspace.max_occupants:
                     if office in self.vacant_livingspace:
                         self.vacant_livingspace.remove(livingspace)
@@ -70,6 +77,7 @@ class Dojo(object):
 
 
     def add_person(self, person_name, category, needs_accomodation="N"):
+                #adds new person to rooms
                 names = [person.person_name for person in self.all_people]
                 if person_name in names:
                     print ("Name already exists")
@@ -80,6 +88,7 @@ class Dojo(object):
                         self.fellows.append(new_person)
                         self.all_people.append(new_person)
                         self.room_occupation()
+                        #add person to vacant rooms available
                         if self.office or self.livingspace:
                             if not self.vacant_offices:
                                 self.unallocated.append(new_person)
@@ -88,8 +97,12 @@ class Dojo(object):
                             else:
                                 random_office = random.choice(self.vacant_offices)
                                 new_person.office = random_office
-                                random_office.members.append(new_person)
-                                print ('Fellow %s added successfully to office %s'%(new_person.person_name,random_office.room_name))
+                                if len(random_office.members) < random_office.max_occupants:
+                                    random_office.members.append(new_person)
+                                    print ('Fellow {} added successfully to office {}'.format(new_person.person_name,random_office.room_name))
+                                else:
+                                    print ("this room is full")
+
                             if needs_accomodation == 'Y':
                                 self.room_occupation()
                                 if not self.vacant_livingspace:
@@ -98,8 +111,12 @@ class Dojo(object):
                                 else:
                                     random_livingspace = random.choice(self.vacant_livingspace)
                                     new_person.livingspace = random_livingspace
-                                    random_livingspace.members.append(new_person)
-                                    print ('Fellow %s added successfully to living space %s'%(new_person.person_name,random_livingspace.room_name))
+                                    if len(random_livingspace.members) < random_livingspace.max_occupants:
+                                        random_livingspace.members.append(new_person)
+                                        print ('Fellow {} added successfully to living space {}'.format(new_person.person_name,random_livingspace.room_name))
+                                    else:
+                                        print('This room is full')
+
 
                     elif category == 'staff':
                         new_person = Staff(person_name)
@@ -109,12 +126,12 @@ class Dojo(object):
                             self.room_occupation()
                             if not self.vacant_offices:
                                 self.unallocated.append(new_person)
-                                print('No vacant offices available')
+                                print('No vacant offices available')s
                             else:
                                 random_office = random.choice(self.vacant_offices)
                                 new_person.office= random_office
                                 random_office.members.append(new_person)
-                                print ('Staff %s has been added to office %s successfully'%(new_person.person_name, random_office.room_name))
+                                print ('Staff {} has been added to office {} successfully'.format(new_person.person_name, random_office.room_name))
 
                         else:
                             self.unallocated.append(new_person)
