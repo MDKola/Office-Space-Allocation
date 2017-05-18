@@ -6,6 +6,7 @@ interactive command application.
 Usage:
     my_app create_room <room_type> <room_name>...
     my_app add_person <name> <category> [<need_accomodation>]
+    my_app print_rooms <room_name>
     my_app (-i | --interactive)
     my_app (-h | --help | --version)
 
@@ -19,7 +20,6 @@ import sys
 from docopt import docopt, DocoptExit
 from dojo import Dojo
 from models.person import Fellow, Staff
-#from models.room import Office, Living_space
 dojo = Dojo()
 
 def docopt_cmd(func):
@@ -61,13 +61,12 @@ class Interactive (cmd.Cmd):
         """
         usage:
             create_room <room_type> <room_name>...
-        
+
         """
         type_of_room = arg['<room_type>']
         room_name =arg['<room_name>']
-        
 
-        create_room_status = dojo.create_room(room_name, type_of_room)
+        dojo.create_room(room_name, type_of_room)
 
     @docopt_cmd
     def do_add_person(self, arg):
@@ -80,8 +79,14 @@ class Interactive (cmd.Cmd):
         needs_accomodation = arg['<accomodation>']
 
         dojo.add_person(person_name, category, needs_accomodation)
-        
 
+    def do_print_rooms(self, arg):
+        """Usage: print_room <room_name>
+        """
+
+        room_name = arg["<room_name>"]
+
+        dojo.print_rooms(room_name)
 
 
     def do_quit(self, arg):
