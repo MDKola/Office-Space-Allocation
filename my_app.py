@@ -52,7 +52,7 @@ def docopt_cmd(func):
     fn.__dict__.update(func.__dict__)
     return fn
 
-class MyInteractive (cmd.Cmd):
+class Interactive (cmd.Cmd):
     welcome = 'Welcome to the dojo'
     prompt = welcome
 
@@ -60,15 +60,27 @@ class MyInteractive (cmd.Cmd):
     def do_create_room(self, arg):
         """
         usage:
-            my_app create_room <room_type> <room_name>...
+            create_room <room_type> <room_name>...
+        
         """
-        name =arg['<room_name>']
         type_of_room = arg['<room_type>']
+        room_name =arg['<room_name>']
+        
 
-        create_room_status = dojo.create_room(name, type_of_room)
-        if create_room_status == 'Invalid':
-            print(create_room_status)
-            return
+        create_room_status = dojo.create_room(room_name, type_of_room)
+
+    @docopt_cmd
+    def do_add_person(self, arg):
+        """
+
+        Usage: add_person <first_name> <last_name> <role> [<accomodation>]
+        """
+        person_name = arg['<first_name>'] + " " + arg["<last_name>"]
+        category = arg['<role>']
+        needs_accomodation = arg['<accomodation>']
+
+        dojo.add_person(person_name, category, needs_accomodation)
+        
 
 
 
@@ -79,9 +91,5 @@ class MyInteractive (cmd.Cmd):
         exit()
 
 
-opt = docopt(__doc__, sys.argv[1:])
-
-if opt['--interactive']:
-    MyInteractive().cmdloop()
-
-print(opt)
+if __name__ == "__main__":
+    Interactive().cmdloop()
