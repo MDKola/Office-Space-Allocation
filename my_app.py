@@ -62,11 +62,9 @@ class Interactive (cmd.Cmd):
         """
         usage:
             create_room <room_type> <room_name>...
-
         """
         type_of_room = arg['<room_type>']
         room_name =arg['<room_name>']
-
         dojo.create_room(room_name, type_of_room)
 
     @docopt_cmd
@@ -81,20 +79,12 @@ class Interactive (cmd.Cmd):
 
         dojo.add_person(person_name, category, needs_accomodation)
 
-    def do_print_rooms(self, arg):
-        """Usage: print_room <room_name>
-        """
-
-        room_name = arg["<room_name>"]
-
-        dojo.print_rooms(room_name)
-
-
+    @docopt_cmd
     def do_quit(self, arg):
         """Quits out of Interactive Mode."""
-
         print('Done')
         exit()
+
 opt = docopt(__doc__, sys.argv[1:])
 if opt['--interactive']:
     Interactive().cmdloop()
