@@ -16,17 +16,14 @@ class Dojo(object):
         self.office = []
         self.livingspace = []
 
-
     def create_room(self, room_name, type_of_room):
         #checks roomtype, creates the room and appends to appropriate room list
         print(' ')
         print (('--')*50)
-
         rooms = [room.room_name for room in self.all_rooms]
         if room_name in rooms:
              print("Room already exists. Please use a different room name")
              print(' ')
-
 
         else:
             if type_of_room == "livingspace":
@@ -34,29 +31,22 @@ class Dojo(object):
                     new_room = Living_space(room_name)
                     self.livingspace.append(new_room)
                     self.all_rooms.append(new_room)
-                    print("A new livingspace called %s has been created"\
-                     % str(new_room.room_name))
+                    print("A new livingspace called {} has been created"\
+                     .format("".join(new_room.room_name)))
                     print(' ')
-
-
-
 
             elif type_of_room == 'office':
                     room_type = 'Office'
                     new_room = Office(room_name)
                     self.office.append(new_room)
                     self.all_rooms.append(new_room)
-                    print ("a new office, {} has been created" .format(new_room.room_name))
+                    print ("A new office, {} has been created" \
+                    .format("".join(new_room.room_name)))
                     print(' ')
-
-
 
             else:
                     print ('Invalid input')
                     print(' ')
-
-
-
 
     def room_occupation(self):
         #checks room vacancy
@@ -86,17 +76,12 @@ class Dojo(object):
                         self.vacant_livingspace.remove(livingspace)
                         self.vacant_rooms.remove(livingspace)
 
-
-
-
     def add_person(self, person_name, category, needs_accomodation="N"):
                 #adds new person to rooms
                 names = [person.person_name for person in self.all_people]
                 if person_name in names:
                     print ("Name already exists")
                     print(' ')
-
-
                 else:
                     if category == 'fellow':
                         new_person = Fellow(person_name)
@@ -109,39 +94,30 @@ class Dojo(object):
                                 self.unallocated.append(new_person)
                                 print ('No vacant offices or all available offices are full')
                                 print(' ')
-
-
                             else:
                                 random_office = random.choice(self.vacant_offices)
                                 new_person.office = random_office
                                 if len(random_office.members) < random_office.max_occupants:
                                     random_office.members.append(new_person)
-                                    print ('Fellow {0} added successfully to office {1}'.format(new_person.person_name,str(random_office.room_name)))
+                                    print ('Fellow {0} added successfully to office {1}'.format(new_person.person_name,"".join(random_office.room_name)))
                                     print(' ')
-
                                 else:
-                                    print ("this room is full")
+                                    print ("This room is full")
                                     print(' ')
-
-
                             if needs_accomodation == 'Y':
                                 self.room_occupation()
                                 if not self.vacant_livingspace:
-                                    print ('no vacant livingspace in the dojo')
-
+                                    print ('No vacant livingspace in the dojo')
                                 else:
                                     random_livingspace = random.choice(self.vacant_livingspace)
                                     new_person.livingspace = random_livingspace
                                     if len(random_livingspace.members) < random_livingspace.max_occupants:
                                         random_livingspace.members.append(new_person)
-                                        print ('Fellow {} added successfully to living space {}'.format(new_person.person_name,random_livingspace.room_name))
+                                        print ('Fellow {} added successfully to living space {}'.format(new_person.person_name,"".join(random_livingspace.room_name)))
                                         print(' ')
-
                                     else:
                                         print('This room is full')
                                         print(' ')
-
-
 
                     elif category == 'staff':
                         new_person = Staff(person_name)
@@ -151,28 +127,20 @@ class Dojo(object):
                             self.room_occupation()
                             if not self.vacant_offices:
                                 self.unallocated.append(new_person)
-                                print('No vacant offices available')
+                                print('No vacant offices available. Please add a room.')
                                 print(' ')
-
                             else:
                                 random_office = random.choice(self.vacant_offices)
                                 new_person.office= random_office
                                 if len(random_office.members) < random_office.max_occupants:
                                     random_office.members.append(new_person)
-                                    print ('Staff {} has been added to office {} successfully'.format(new_person.person_name, random_office.room_name))
+                                    print ('Staff {} has been added to office {} successfully'.format(new_person.person_name, "".join(random_office.room_name)))
                                     print(' ')
-
                                 else:
-                                    print ("this room is full")
+                                    print ("This room is full")
                                     print(' ')
-
-
 
                         else:
                             self.unallocated.append(new_person)
                             print ('No vacant office. Please create a room')
                             print(' ')
-
-
-    def print_room(self):
-         pass
