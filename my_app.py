@@ -53,8 +53,9 @@ def docopt_cmd(func):
     return fn
 
 class Interactive (cmd.Cmd):
-    welcome = 'Welcome to the dojo'
+    welcome = 'Welcome to the dojo>>>'
     prompt = welcome
+    print(" ")
 
     @docopt_cmd
     def do_create_room(self, arg):
@@ -94,7 +95,7 @@ class Interactive (cmd.Cmd):
 
         print('Done')
         exit()
-
-
-if __name__ == "__main__":
+opt = docopt(__doc__, sys.argv[1:])
+if opt['--interactive']:
     Interactive().cmdloop()
+print(opt)
